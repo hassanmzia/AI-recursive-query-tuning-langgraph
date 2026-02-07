@@ -9,6 +9,9 @@ export function proxyRoutes(backendUrl: string): Router {
     changeOrigin: true,
     timeout: 300000,      // 5 minutes for long-running AI queries
     proxyTimeout: 300000,
+    // Express strips the /api prefix before passing to this middleware,
+    // but Django expects /api/ in the URL — re-add it.
+    pathRewrite: { '^/': '/api/' },
     on: {
       proxyReq: (proxyReq, req: any) => {
         // Forward session ID header
