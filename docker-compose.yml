@@ -25,13 +25,13 @@ services:
     restart: unless-stopped
 
   # ===========================================================================
-  # Redis Cache/Message Broker (port 6479)
+  # Redis Cache/Message Broker (port 6478)
   # ===========================================================================
   redis:
     image: redis:7-alpine
     container_name: rqt-redis
     ports:
-      - "${REDIS_EXTERNAL_PORT:-6479}:6379"
+      - "${REDIS_EXTERNAL_PORT:-6478}:6379"
     volumes:
       - redis_data:/data
     healthcheck:
