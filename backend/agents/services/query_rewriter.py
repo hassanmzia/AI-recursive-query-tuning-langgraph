@@ -26,6 +26,8 @@ class QueryRewriter:
             temperature=temperature,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_base=settings.OPENAI_BASE_URL,
+            request_timeout=15,
+            max_tokens=150,
         )
         self.prompt = ChatPromptTemplate.from_messages(
             [("system", REWRITE_PROMPT)]

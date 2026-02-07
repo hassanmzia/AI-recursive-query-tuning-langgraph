@@ -109,7 +109,7 @@ class ExecuteQueryView(APIView):
                         {"error": "Workflow engine not initialized"},
                         status=status.HTTP_503_SERVICE_UNAVAILABLE,
                     )
-                result = engine.execute_sync(query, session_id=session_id)
+                result = engine.execute(query, session_id=session_id)
                 execution.complete(
                     answer=result["answer"],
                     trace=result["trace"],

@@ -10,6 +10,7 @@ class ObservabilityManager:
     """Manages LangSmith and Langfuse observability integrations."""
 
     _langfuse_instance = None
+    _callback_handler = None
 
     @classmethod
     def get_langfuse(cls):
@@ -31,15 +32,18 @@ class ObservabilityManager:
 
     @classmethod
     def get_langfuse_callback_handler(cls):
-        """Get Langfuse callback handler for LangChain."""
+        """Get cached Langfuse callback handler for LangChain."""
+        if cls._callback_handler is not None:
+            return cls._callback_handler
         try:
             from langfuse.callback import CallbackHandler
 
-            return CallbackHandler(
+            cls._callback_handler = CallbackHandler(
                 public_key=settings.LANGFUSE_PUBLIC_KEY,
                 secret_key=settings.LANGFUSE_SECRET_KEY,
                 host=settings.LANGFUSE_HOST,
             )
+            return cls._callback_handler
         except Exception as e:
             logger.warning(f"Failed to create Langfuse callback handler: {e}")
             return None

@@ -39,6 +39,8 @@ class DocumentGrader:
             temperature=temperature,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_base=settings.OPENAI_BASE_URL,
+            request_timeout=15,
+            max_tokens=50,
         )
         self.structured_llm = self.llm.with_structured_output(GradeDocuments)
         self.prompt = ChatPromptTemplate.from_messages(
