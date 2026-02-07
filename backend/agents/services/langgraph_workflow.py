@@ -9,9 +9,9 @@ Implements the full Adaptive ReAct workflow from the notebook:
   5. generate_answer — produces final answer from context
 """
 import logging
+import os
 import time
 import uuid
-from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from typing import Literal, Optional
 
 from django.conf import settings
@@ -38,12 +38,19 @@ Question: {question}
 Context: {context}
 """
 
+_PLACEHOLDER_PATTERNS = ("your-", "change-me", "placeholder", "xxx")
+
+
+def _is_real_openai_key(key: str) -> bool:
+    """Check that the OpenAI API key is not a placeholder."""
+    if not key or not key.strip():
+        return False
+    lower = key.strip().lower()
+    return not any(p in lower for p in _PLACEHOLDER_PATTERNS)
+
 
 class RecursiveQAWorkflow:
     """LangGraph-based recursive QA workflow with adaptive ReAct pattern."""
-
-    # Hard timeout (seconds) for the entire workflow execution
-    EXECUTION_TIMEOUT = 120
 
     def __init__(
         self,
@@ -52,6 +59,11 @@ class RecursiveQAWorkflow:
     ):
         self.collection_name = collection_name
         self.max_iterations = max_iterations
+
+        # Explicitly disable LangSmith tracing at class init to prevent
+        # LangChain from trying to send traces with invalid/placeholder keys
+        if not _is_real_openai_key(os.environ.get("LANGCHAIN_API_KEY", "")):
+            os.environ["LANGCHAIN_TRACING_V2"] = "false"
 
         # Initialize LLM
         self.llm = ChatOpenAI(
@@ -63,6 +75,7 @@ class RecursiveQAWorkflow:
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_base=settings.OPENAI_BASE_URL,
             request_timeout=30,
+            max_retries=1,
         )
 
         # Initialize embeddings
@@ -127,12 +140,17 @@ class RecursiveQAWorkflow:
 
     def _generate_query_or_respond(self, state: MessagesState):
         """Node 1: Decide whether to use tools (RAG) or respond directly."""
+        logger.info("[WORKFLOW] Node: generate_query_or_respond — calling LLM with tool binding")
         self._trace_node("generate_query_or_respond", "Deciding: retrieve or respond")
+        t0 = time.time()
         response = self.llm.bind_tools([self.retriever_tool]).invoke(state["messages"])
+        logger.info(f"[WORKFLOW] generate_query_or_respond done in {time.time()-t0:.1f}s, "
+                     f"tool_calls={bool(getattr(response, 'tool_calls', None))}")
         return {"messages": [response]}
 
     def _grade_documents(self, state: MessagesState) -> Literal["generate_answer", "rewrite_question"]:
         """Conditional edge: Grade retrieved documents for relevance."""
+        logger.info("[WORKFLOW] Edge: grade_documents — checking relevance")
         self._trace_node("grade_documents", "Evaluating document relevance")
         messages = state["messages"]
 
@@ -152,9 +170,12 @@ class RecursiveQAWorkflow:
 
         if not tool_content:
             self._trace_node("grade_documents", "No content retrieved -> rewrite")
+            logger.info("[WORKFLOW] grade_documents: no content -> rewrite")
             return "rewrite_question"
 
+        t0 = time.time()
         score = self.grader.grade(question, tool_content)
+        logger.info(f"[WORKFLOW] grade_documents: score={score} in {time.time()-t0:.1f}s")
         if score == "yes":
             self._trace_node("grade_documents", f"Relevant (score={score}) -> generate")
             return "generate_answer"
@@ -164,6 +185,7 @@ class RecursiveQAWorkflow:
 
     def _rewrite_question(self, state: MessagesState):
         """Node 2: Rewrite the question for better retrieval."""
+        logger.info("[WORKFLOW] Node: rewrite_question — calling LLM")
         self._trace_node("rewrite_question", "Rewriting query for better results")
         messages = state["messages"]
 
@@ -174,11 +196,14 @@ class RecursiveQAWorkflow:
                 question = msg.content
                 break
 
+        t0 = time.time()
         rewritten = self.rewriter.rewrite(question)
+        logger.info(f"[WORKFLOW] rewrite_question done in {time.time()-t0:.1f}s: '{rewritten[:80]}'")
         return {"messages": [HumanMessage(content=rewritten)]}
 
     def _generate_answer(self, state: MessagesState):
         """Node 3: Generate the final answer from retrieved context."""
+        logger.info("[WORKFLOW] Node: generate_answer — calling LLM")
         self._trace_node("generate_answer", "Generating final answer from context")
         messages = state["messages"]
 
@@ -197,7 +222,9 @@ class RecursiveQAWorkflow:
 
         prompt = ChatPromptTemplate.from_messages([("system", GENERATE_PROMPT)])
         chain = prompt | self.llm
+        t0 = time.time()
         response = chain.invoke({"question": question, "context": context})
+        logger.info(f"[WORKFLOW] generate_answer done in {time.time()-t0:.1f}s")
         return {"messages": [response]}
 
     def _trace_node(self, node_name: str, detail: str):
@@ -213,10 +240,17 @@ class RecursiveQAWorkflow:
         if self.graph is None:
             raise RuntimeError("Workflow not initialized. Call initialize_retriever first.")
 
+        # Fail fast if OpenAI key is a placeholder
+        if not _is_real_openai_key(settings.OPENAI_API_KEY):
+            raise ValueError(
+                "OPENAI_API_KEY is not configured. Set a valid key in .env "
+                "(current value looks like a placeholder)."
+            )
+
         self._current_trace = []
         start_time = time.time()
 
-        # Set up observability
+        # Set up observability (skipped automatically for placeholder keys)
         callbacks = []
         langfuse_handler = ObservabilityManager.get_langfuse_callback_handler()
         if langfuse_handler:
@@ -228,6 +262,9 @@ class RecursiveQAWorkflow:
             metadata={"query": query},
         )
 
+        logger.info(f"[WORKFLOW] Starting recursive QA for query: '{query[:100]}' "
+                     f"(max_iterations={self.max_iterations}, callbacks={len(callbacks)})")
+
         try:
             input_data = {
                 "messages": [HumanMessage(content=query)],
@@ -237,22 +274,18 @@ class RecursiveQAWorkflow:
             if callbacks:
                 config["callbacks"] = callbacks
 
-            # Execute graph with a hard timeout to prevent hanging forever.
-            invoke_config = {"recursion_limit": self.max_iterations * 2 + 3, **config}
-            with ThreadPoolExecutor(max_workers=1) as pool:
-                future = pool.submit(self.graph.invoke, input_data, invoke_config)
-                try:
-                    result = future.result(timeout=self.EXECUTION_TIMEOUT)
-                except FuturesTimeoutError:
-                    raise TimeoutError(
-                        f"Workflow execution exceeded {self.EXECUTION_TIMEOUT}s timeout"
-                    )
+            # Execute graph — recursion_limit caps the number of node transitions
+            result = self.graph.invoke(
+                input_data,
+                config={"recursion_limit": self.max_iterations * 2 + 3, **config},
+            )
 
             # Extract final answer
             final_message = result["messages"][-1]
             answer = final_message.content if hasattr(final_message, "content") else str(final_message)
 
             duration_ms = int((time.time() - start_time) * 1000)
+            logger.info(f"[WORKFLOW] Completed in {duration_ms}ms, answer length={len(answer)}")
 
             # Log score to Langfuse
             if trace:
@@ -280,7 +313,8 @@ class RecursiveQAWorkflow:
                 "langfuse_trace_id": str(trace.id) if trace and hasattr(trace, "id") else "",
             }
         except Exception as e:
-            logger.error(f"Workflow execution failed: {e}", exc_info=True)
+            logger.error(f"[WORKFLOW] Execution failed after {time.time()-start_time:.1f}s: {e}",
+                         exc_info=True)
             if trace:
                 ObservabilityManager.log_score(
                     trace_id=str(trace.id) if hasattr(trace, "id") else "",

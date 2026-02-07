@@ -28,6 +28,7 @@ class QueryRewriter:
             openai_api_base=settings.OPENAI_BASE_URL,
             request_timeout=15,
             max_tokens=150,
+            max_retries=1,
         )
         self.prompt = ChatPromptTemplate.from_messages(
             [("system", REWRITE_PROMPT)]
