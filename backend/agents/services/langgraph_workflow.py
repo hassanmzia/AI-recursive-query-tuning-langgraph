@@ -11,6 +11,7 @@ Implements the full Adaptive ReAct workflow from the notebook:
 import logging
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from typing import Literal, Optional
 
 from django.conf import settings
@@ -41,10 +42,13 @@ Context: {context}
 class RecursiveQAWorkflow:
     """LangGraph-based recursive QA workflow with adaptive ReAct pattern."""
 
+    # Hard timeout (seconds) for the entire workflow execution
+    EXECUTION_TIMEOUT = 120
+
     def __init__(
         self,
         collection_name: str = "Research_Papers",
-        max_iterations: int = 5,
+        max_iterations: int = 3,
     ):
         self.collection_name = collection_name
         self.max_iterations = max_iterations
@@ -233,13 +237,16 @@ class RecursiveQAWorkflow:
             if callbacks:
                 config["callbacks"] = callbacks
 
-            # Execute graph — each rewrite loop uses ~4 node transitions,
-            # so cap at (max_iterations * 2 + 3) to allow reasonable retries
-            # without runaway loops.
-            result = self.graph.invoke(
-                input_data,
-                config={"recursion_limit": self.max_iterations * 2 + 3, **config},
-            )
+            # Execute graph with a hard timeout to prevent hanging forever.
+            invoke_config = {"recursion_limit": self.max_iterations * 2 + 3, **config}
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(self.graph.invoke, input_data, invoke_config)
+                try:
+                    result = future.result(timeout=self.EXECUTION_TIMEOUT)
+                except FuturesTimeoutError:
+                    raise TimeoutError(
+                        f"Workflow execution exceeded {self.EXECUTION_TIMEOUT}s timeout"
+                    )
 
             # Extract final answer
             final_message = result["messages"][-1]
