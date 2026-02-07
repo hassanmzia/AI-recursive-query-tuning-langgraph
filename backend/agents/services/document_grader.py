@@ -41,6 +41,7 @@ class DocumentGrader:
             openai_api_base=settings.OPENAI_BASE_URL,
             request_timeout=15,
             max_tokens=50,
+            max_retries=1,
         )
         self.structured_llm = self.llm.with_structured_output(GradeDocuments)
         self.prompt = ChatPromptTemplate.from_messages(
