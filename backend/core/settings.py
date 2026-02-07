@@ -166,7 +166,7 @@ LANGFUSE_SECRET_KEY = os.environ.get("LANGFUSE_SECRET_KEY", "")
 LANGFUSE_HOST = os.environ.get("LANGFUSE_HOST", "http://langfuse:3084")
 
 # MCP
-MCP_SERVER_PORT = int(os.environ.get("MCP_SERVER_PORT", "8043"))
+MCP_SERVER_PORT = int(os.environ.get("MCP_SERVER_PORT", "8045"))
 MCP_SERVER_HOST = os.environ.get("MCP_SERVER_HOST", "0.0.0.0")
 
 # A2A
