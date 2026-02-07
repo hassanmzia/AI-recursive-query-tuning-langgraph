@@ -58,6 +58,7 @@ class RecursiveQAWorkflow:
             frequency_penalty=1.2,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_base=settings.OPENAI_BASE_URL,
+            request_timeout=30,
         )
 
         # Initialize embeddings
@@ -203,8 +204,8 @@ class RecursiveQAWorkflow:
             "timestamp": time.time(),
         })
 
-    async def execute(self, query: str, session_id: str = None) -> dict:
-        """Execute the workflow with a user query."""
+    def execute(self, query: str, session_id: str = None) -> dict:
+        """Execute the workflow with a user query (synchronous — graph.invoke is sync)."""
         if self.graph is None:
             raise RuntimeError("Workflow not initialized. Call initialize_retriever first.")
 
@@ -232,10 +233,12 @@ class RecursiveQAWorkflow:
             if callbacks:
                 config["callbacks"] = callbacks
 
-            # Execute graph with recursion limit to prevent infinite loops
+            # Execute graph — each rewrite loop uses ~4 node transitions,
+            # so cap at (max_iterations * 2 + 3) to allow reasonable retries
+            # without runaway loops.
             result = self.graph.invoke(
                 input_data,
-                config={"recursion_limit": self.max_iterations * 3, **config},
+                config={"recursion_limit": self.max_iterations * 2 + 3, **config},
             )
 
             # Extract final answer
@@ -279,16 +282,6 @@ class RecursiveQAWorkflow:
                     comment=str(e),
                 )
             raise
-
-    def execute_sync(self, query: str, session_id: str = None) -> dict:
-        """Synchronous wrapper for workflow execution."""
-        import asyncio
-
-        loop = asyncio.new_event_loop()
-        try:
-            return loop.run_until_complete(self.execute(query, session_id))
-        finally:
-            loop.close()
 
     def get_mermaid_diagram(self) -> str:
         """Generate Mermaid diagram of the workflow graph."""
