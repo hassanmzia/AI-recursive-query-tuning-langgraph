@@ -148,6 +148,9 @@ services:
       - PORT=3083
       - BACKEND_URL=http://backend:8043
       - REDIS_URL=redis://redis:6379/0
+    # Recompile TS from volume-mounted src/ so code changes take effect
+    # on restart without a full image rebuild.
+    command: sh -c "npx tsc && node dist/index.js"
     networks:
       - rqt-network
     restart: unless-stopped

@@ -14,6 +14,16 @@ export function proxyRoutes(backendUrl: string): Router {
     pathRewrite: { '^/': '/api/' },
     on: {
       proxyReq: (proxyReq, req: any) => {
+        // Re-serialize the body that express.json() already consumed.
+        // Without this, POST/PUT/PATCH requests hang because the proxy
+        // tries to pipe a stream that has already been drained.
+        if (req.body && Object.keys(req.body).length > 0) {
+          const bodyData = JSON.stringify(req.body);
+          proxyReq.setHeader('Content-Type', 'application/json');
+          proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData).toString());
+          proxyReq.write(bodyData);
+        }
+
         // Forward session ID header
         if (req.headers['x-session-id']) {
           proxyReq.setHeader('X-Session-Id', req.headers['x-session-id']);
