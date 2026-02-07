@@ -20,7 +20,7 @@ langchain-chroma==0.2.4
 langgraph==0.6.6
 
 # LangSmith
-langsmith==0.3.42
+langsmith>=0.3.45,<1.0.0
 
 # Langfuse
 langfuse==2.60.0
