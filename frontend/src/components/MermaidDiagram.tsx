@@ -8,16 +8,20 @@ interface Props {
 
 mermaid.initialize({
   startOnLoad: false,
-  theme: 'dark',
+  theme: 'base',
   themeVariables: {
     primaryColor: '#6366f1',
-    primaryTextColor: '#e4e6f0',
+    primaryTextColor: '#000000',
     primaryBorderColor: '#818cf8',
     lineColor: '#6b70a0',
     secondaryColor: '#252840',
     tertiaryColor: '#1e2035',
     fontFamily: 'Inter, sans-serif',
     fontSize: '14px',
+    nodeBorder: '#818cf8',
+    nodeTextColor: '#000000',
+    edgeLabelBackground: '#1e2035',
+    clusterBkg: '#1e2035',
   },
   flowchart: {
     curve: 'basis',

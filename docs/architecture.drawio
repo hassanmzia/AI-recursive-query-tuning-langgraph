@@ -1,0 +1,261 @@
+<mxfile host="app.diagrams.net" modified="2026-02-07T00:00:00.000Z" agent="Claude" version="22.0.0" type="device">
+  <diagram id="architecture-overview" name="Technical Architecture">
+    <mxGraphModel dx="2200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="AI Recursive Query Tuning — Technical Architecture" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
+          <mxGeometry x="350" y="10" width="700" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- USER / BROWSER -->
+        <!-- ================================================================ -->
+        <mxCell id="user" value="User / Browser" style="shape=actor;whiteSpace=wrap;html=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="60" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- FRONTEND LAYER -->
+        <!-- ================================================================ -->
+        <mxCell id="frontend-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=8;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="150" width="640" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend-label" value="Frontend Layer — Port 3082" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="390" y="155" width="180" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="react" value="&lt;b&gt;React 19&lt;/b&gt;&lt;br&gt;TypeScript&lt;br&gt;Zustand State" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="400" y="180" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" value="&lt;b&gt;Nginx&lt;/b&gt;&lt;br&gt;Static Serving&lt;br&gt;SPA Routing&lt;br&gt;Gzip / Security Headers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="180" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="mermaid" value="&lt;b&gt;Mermaid.js&lt;/b&gt;&lt;br&gt;Workflow Graphs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="710" y="180" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pages" value="&lt;b&gt;Pages&lt;/b&gt;&lt;br&gt;Chat | Dashboard&lt;br&gt;Documents | Workflow&lt;br&gt;Agents | History" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="850" y="180" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- GATEWAY LAYER -->
+        <!-- ================================================================ -->
+        <mxCell id="gateway-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#F57C00;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="310" width="640" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-label" value="API Gateway Layer — Port 3083" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="390" y="315" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="express" value="&lt;b&gt;Express.js&lt;/b&gt;&lt;br&gt;Node.js 20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#EF6C00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="400" y="340" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="proxy" value="&lt;b&gt;HTTP Proxy&lt;/b&gt;&lt;br&gt;http-proxy-middleware&lt;br&gt;Body Re-serialization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#EF6C00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="530" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ws" value="&lt;b&gt;WebSocket&lt;/b&gt;&lt;br&gt;ws library&lt;br&gt;Real-time Streaming" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#EF6C00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="710" y="340" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="security" value="&lt;b&gt;Security&lt;/b&gt;&lt;br&gt;Helmet · CORS&lt;br&gt;Rate Limiting" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#EF6C00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="870" y="340" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- BACKEND LAYER -->
+        <!-- ================================================================ -->
+        <mxCell id="backend-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="200" y="460" width="1000" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-label" value="Backend Layer — Django 5 + DRF — Port 8043" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#0D47A1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="465" width="290" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Django Apps Row -->
+        <mxCell id="agents-app" value="&lt;b&gt;agents&lt;/b&gt;&lt;br&gt;Workflow Execution&lt;br&gt;Agent Configs&lt;br&gt;MCP &amp;amp; A2A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="docs-app" value="&lt;b&gt;documents&lt;/b&gt;&lt;br&gt;Upload &amp;amp; Index&lt;br&gt;Vector Search&lt;br&gt;Chunk Management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="conv-app" value="&lt;b&gt;conversations&lt;/b&gt;&lt;br&gt;Sessions &amp;amp; Messages&lt;br&gt;Query Refinement&lt;br&gt;History" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="analytics-app" value="&lt;b&gt;analytics&lt;/b&gt;&lt;br&gt;Dashboard Metrics&lt;br&gt;Quality Scores&lt;br&gt;User Feedback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="700" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="core-app" value="&lt;b&gt;core&lt;/b&gt;&lt;br&gt;Settings · URLs&lt;br&gt;ASGI / WSGI&lt;br&gt;Gunicorn + Uvicorn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="860" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- AI/ML Services Row -->
+        <mxCell id="ai-services-label" value="AI / ML Services" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=5;fontColor=#0D47A1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="575" width="110" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="langgraph-wf" value="&lt;b&gt;RecursiveQAWorkflow&lt;/b&gt;&lt;br&gt;LangGraph StateGraph&lt;br&gt;Adaptive ReAct Pattern&lt;br&gt;5 Nodes · Conditional Edges" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0;fontSize=11;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="600" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="multi-agent" value="&lt;b&gt;MultiAgentOrchestrator&lt;/b&gt;&lt;br&gt;5 Specialized Agents&lt;br&gt;Critique-Revision Loop&lt;br&gt;Quality Threshold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="430" y="600" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp-server" value="&lt;b&gt;MCP Server&lt;/b&gt;&lt;br&gt;Tool Registry&lt;br&gt;Port 8045" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="630" y="600" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="a2a-handler" value="&lt;b&gt;A2A Protocol&lt;/b&gt;&lt;br&gt;Agent Discovery&lt;br&gt;Task Delegation&lt;br&gt;Port 8044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="770" y="600" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="observability-svc" value="&lt;b&gt;Observability&lt;/b&gt;&lt;br&gt;LangSmith Tracing&lt;br&gt;Langfuse Callbacks&lt;br&gt;Placeholder Detection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="600" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- LangGraph Workflow Detail -->
+        <mxCell id="wf-detail-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#3949AB;strokeWidth=2;arcSize=8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="790" width="1000" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="wf-detail-label" value="LangGraph Adaptive ReAct QA Workflow — StateGraph with MessagesState" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#283593;" vertex="1" parent="1">
+          <mxGeometry x="210" y="795" width="380" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node-start" value="&lt;b&gt;START&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#000000;strokeColor=#2E7D32;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="830" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="node-gen" value="&lt;b&gt;generate_query&lt;br&gt;_or_respond&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;fontColor=#000000;strokeColor=#1565C0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="825" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node-retrieve" value="&lt;b&gt;retrieve&lt;/b&gt;&lt;br&gt;(ToolNode)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9800;fontColor=#000000;strokeColor=#EF6C00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="825" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node-grade" value="&lt;b&gt;grade&lt;br&gt;_documents&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#9C27B0;fontColor=#000000;strokeColor=#7B1FA2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="815" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node-rewrite" value="&lt;b&gt;rewrite&lt;br&gt;_question&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF5722;fontColor=#000000;strokeColor=#D84315;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="900" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="node-answer" value="&lt;b&gt;generate&lt;br&gt;_answer&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00BCD4;fontColor=#000000;strokeColor=#00838F;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="770" y="825" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node-end" value="&lt;b&gt;END&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f44336;fontColor=#000000;strokeColor=#C62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="830" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Workflow Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;" edge="1" parent="1" source="node-start" target="node-gen">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="uses tools" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;fontSize=9;" edge="1" parent="1" source="node-gen" target="node-retrieve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;" edge="1" parent="1" source="node-retrieve" target="node-grade">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="relevant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#4CAF50;fontSize=9;" edge="1" parent="1" source="node-grade" target="node-answer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="not relevant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#f44336;fontSize=9;" edge="1" parent="1" source="node-grade" target="node-rewrite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="retry" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#FF5722;fontSize=9;entryX=0.5;entryY=1;" edge="1" parent="1" source="node-rewrite" target="node-gen">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;" edge="1" parent="1" source="node-answer" target="node-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="direct answer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;fontSize=9;" edge="1" parent="1" source="node-gen" target="node-end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="890" />
+              <mxPoint x="960" y="890" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- DATA LAYER -->
+        <!-- ================================================================ -->
+        <mxCell id="data-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#C62828;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="200" y="980" width="1000" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="data-label" value="Data &amp; Infrastructure Layer" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#B71C1C;" vertex="1" parent="1">
+          <mxGeometry x="210" y="985" width="170" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="postgres" value="&lt;b&gt;PostgreSQL 16&lt;/b&gt;&lt;br&gt;Port 5532&lt;br&gt;Sessions · Messages&lt;br&gt;Executions · Configs" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#FFCDD2;strokeColor=#C62828;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1010" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="chromadb-data" value="&lt;b&gt;ChromaDB&lt;/b&gt;&lt;br&gt;Port 8142&lt;br&gt;Vector Embeddings&lt;br&gt;text-embedding-ada-002" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#FFCDD2;strokeColor=#C62828;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="410" y="1010" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="redis-data" value="&lt;b&gt;Redis 7&lt;/b&gt;&lt;br&gt;Port 6478&lt;br&gt;Cache · Channel Layer&lt;br&gt;WebSocket Backbone" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#FFCDD2;strokeColor=#C62828;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="1010" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="langfuse-data" value="&lt;b&gt;Langfuse&lt;/b&gt;&lt;br&gt;Port 3084&lt;br&gt;Traces · Scores&lt;br&gt;Observability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCDD2;strokeColor=#C62828;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1015" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="openai-ext" value="&lt;b&gt;OpenAI API&lt;/b&gt;&lt;br&gt;GPT-4o-mini&lt;br&gt;text-embedding-ada-002" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="1015" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- CONNECTIONS between layers -->
+        <!-- ================================================================ -->
+        <!-- User to Frontend -->
+        <mxCell id="c1" value="HTTP / HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#43A047;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="user" target="frontend-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend to Gateway -->
+        <mxCell id="c2" value="REST API (Axios)&#xa;WebSocket" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#F57C00;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="frontend-group" target="gateway-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway to Backend -->
+        <mxCell id="c3" value="HTTP Proxy&#xa;Body Re-serialization" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#1565C0;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="gateway-group" target="backend-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend to Data -->
+        <mxCell id="c4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#C62828;strokeWidth=2;" edge="1" parent="1" source="backend-group" target="data-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- DOCKER COMPOSE badge -->
+        <!-- ================================================================ -->
+        <mxCell id="docker-badge" value="&lt;b&gt;Docker Compose&lt;/b&gt;&lt;br&gt;7 Services · Bridge Network (rqt-network)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#263238;fontColor=#ECEFF1;strokeColor=#455A64;fontSize=11;dashed=1;dashPattern=5 5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="570" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================ -->
+        <!-- LLM PIPELINE DETAIL (right side) -->
+        <!-- ================================================================ -->
+        <mxCell id="llm-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;strokeWidth=2;arcSize=8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="460" width="210" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="llm-label" value="LLM Pipeline Config" style="text;html=1;align=center;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#4A148C;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="465" width="130" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="llm-main" value="&lt;b&gt;Main LLM&lt;/b&gt;&lt;br&gt;gpt-4o-mini&lt;br&gt;temp=0 · max_tokens=500&lt;br&gt;timeout=30s · retries=1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="490" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="llm-grader" value="&lt;b&gt;Document Grader&lt;/b&gt;&lt;br&gt;max_tokens=50&lt;br&gt;Binary yes/no scoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="560" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="llm-rewriter" value="&lt;b&gt;Query Rewriter&lt;/b&gt;&lt;br&gt;max_tokens=150&lt;br&gt;Semantic reformulation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="620" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="llm-embed" value="&lt;b&gt;Embeddings&lt;/b&gt;&lt;br&gt;text-embedding-ada-002&lt;br&gt;1000 tokens / 200 overlap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="680" width="180" height="50" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

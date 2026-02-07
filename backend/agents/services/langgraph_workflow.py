@@ -355,10 +355,10 @@ class RecursiveQAWorkflow:
     rewrite_question --> generate_query_or_respond
     generate_answer --> __end__([End])
 
-    style __start__ fill:#4CAF50,color:#fff
-    style __end__ fill:#f44336,color:#fff
-    style generate_query_or_respond fill:#2196F3,color:#fff
-    style retrieve fill:#FF9800,color:#fff
-    style grade_documents fill:#9C27B0,color:#fff
-    style rewrite_question fill:#FF5722,color:#fff
-    style generate_answer fill:#00BCD4,color:#fff"""
+    style __start__ fill:#4CAF50,color:#000
+    style __end__ fill:#f44336,color:#000
+    style generate_query_or_respond fill:#2196F3,color:#000
+    style retrieve fill:#FF9800,color:#000
+    style grade_documents fill:#9C27B0,color:#000
+    style rewrite_question fill:#FF5722,color:#000
+    style generate_answer fill:#00BCD4,color:#000"""

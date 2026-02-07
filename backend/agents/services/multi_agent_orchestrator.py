@@ -344,10 +344,10 @@ class MultiAgentOrchestrator:
     revision_agent --> critique_agent
     summarizer --> __end__([End])
 
-    style __start__ fill:#4CAF50,color:#fff
-    style __end__ fill:#f44336,color:#fff
-    style research_agent fill:#2196F3,color:#fff
-    style qa_specialist fill:#FF9800,color:#fff
-    style critique_agent fill:#9C27B0,color:#fff
-    style revision_agent fill:#FF5722,color:#fff
-    style summarizer fill:#00BCD4,color:#fff"""
+    style __start__ fill:#4CAF50,color:#000
+    style __end__ fill:#f44336,color:#000
+    style research_agent fill:#2196F3,color:#000
+    style qa_specialist fill:#FF9800,color:#000
+    style critique_agent fill:#9C27B0,color:#000
+    style revision_agent fill:#FF5722,color:#000
+    style summarizer fill:#00BCD4,color:#000"""
