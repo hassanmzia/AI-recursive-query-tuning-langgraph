@@ -47,7 +47,7 @@ services:
   # ChromaDB Vector Store (port 8142)
   # ===========================================================================
   chromadb:
-    image: chromadb/chroma:0.5.23
+    image: chromadb/chroma:latest
     container_name: rqt-chromadb
     ports:
       - "${CHROMA_EXTERNAL_PORT:-8142}:8000"
@@ -56,11 +56,13 @@ services:
     environment:
       - IS_PERSISTENT=TRUE
       - ANONYMIZED_TELEMETRY=FALSE
+      - CHROMA_SERVER_NOFILE=65535
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/api/v1/heartbeat", "||", "curl", "-sf", "http://localhost:8000/api/v2/heartbeat"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 15s
     networks:
       - rqt-network
     restart: unless-stopped
