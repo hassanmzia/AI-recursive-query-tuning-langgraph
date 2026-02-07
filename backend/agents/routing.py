@@ -1,8 +1,6 @@
-"""WebSocket URL routing for the agents app."""
-from django.urls import re_path
-from . import consumers
+"""WebSocket URL routing placeholder.
 
-websocket_urlpatterns = [
-    re_path(r"ws/workflow/(?P<session_id>\w+)/$", consumers.WorkflowStreamConsumer.as_asgi()),
-    re_path(r"ws/workflow/$", consumers.WorkflowStreamConsumer.as_asgi()),
-]
+Real-time WebSocket streaming is handled by the Node.js gateway (port 3083).
+"""
+
+websocket_urlpatterns = []
