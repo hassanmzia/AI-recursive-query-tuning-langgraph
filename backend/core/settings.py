@@ -152,7 +152,8 @@ OPENAI_EMBEDDING_MODEL = os.environ.get("OPENAI_EMBEDDING_MODEL", "text-embeddin
 
 # ChromaDB
 CHROMA_HOST = os.environ.get("CHROMA_HOST", "chromadb")
-CHROMA_PORT = int(os.environ.get("CHROMA_PORT", "8142"))
+# Internal Docker port for ChromaDB (container listens on 8000; 8142 is the external mapping)
+CHROMA_PORT = int(os.environ.get("CHROMA_INTERNAL_PORT", "8000"))
 
 # LangSmith
 LANGCHAIN_TRACING_V2 = os.environ.get("LANGCHAIN_TRACING_V2", "true")

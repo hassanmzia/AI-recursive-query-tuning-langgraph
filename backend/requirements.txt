@@ -25,8 +25,8 @@ langsmith>=0.3.45,<1.0.0
 # Langfuse
 langfuse==2.60.0
 
-# Vector store
-chromadb==0.5.23
+# Vector store (chromadb 1.x client; server runs separately via docker)
+chromadb>=1.0.9,<2
 
 # Document processing
 pypdf==5.4.0
