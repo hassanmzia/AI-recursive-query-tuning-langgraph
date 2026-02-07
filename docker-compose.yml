@@ -97,7 +97,7 @@ services:
     restart: unless-stopped
 
   # ===========================================================================
-  # Django Backend - AI/ML Engine (port 8042)
+  # Django Backend - AI/ML Engine (port 8043)
   # ===========================================================================
   backend:
     build:
@@ -112,7 +112,7 @@ services:
       chromadb:
         condition: service_healthy
     ports:
-      - "${BACKEND_PORT:-8042}:8042"
+      - "${BACKEND_PORT:-8043}:8043"
     volumes:
       - ./backend:/app
       - ./agentic_ai_research_papers.zip:/app/data/agentic_ai_research_papers.zip
@@ -146,7 +146,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3083
-      - BACKEND_URL=http://backend:8042
+      - BACKEND_URL=http://backend:8043
       - REDIS_URL=redis://redis:6379/0
     networks:
       - rqt-network

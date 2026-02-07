@@ -20,6 +20,6 @@ COPY . .
 
 RUN mkdir -p /app/data /app/media/uploads /app/static
 
-EXPOSE 8042
+EXPOSE 8043
 
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput 2>/dev/null; python manage.py initialize_vectorstore; exec gunicorn core.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8042 --workers 2 --timeout 300"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput 2>/dev/null; python manage.py initialize_vectorstore; exec gunicorn core.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8043 --workers 2 --timeout 300"]
