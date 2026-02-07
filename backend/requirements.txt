@@ -16,7 +16,7 @@ langchain==0.3.27
 langchain-core==0.3.79
 langchain-openai==0.3.35
 langchain-community==0.3.31
-langchain-chroma==0.2.4
+langchain-chroma==0.1.4
 langgraph==0.6.6
 
 # LangSmith
@@ -25,8 +25,8 @@ langsmith>=0.3.45,<1.0.0
 # Langfuse
 langfuse==2.60.0
 
-# Vector store (chromadb 1.x client; server runs separately via docker)
-chromadb>=1.0.9,<2
+# Vector store (aligned with chromadb/chroma:0.6.3 server image)
+chromadb>=0.5.0,<0.7
 
 # Document processing
 pypdf==5.4.0
