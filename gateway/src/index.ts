@@ -11,7 +11,7 @@ import { requestLogger } from './middleware/requestLogger';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3083', 10);
-const BACKEND_URL = process.env.BACKEND_URL || 'http://backend:8042';
+const BACKEND_URL = process.env.BACKEND_URL || 'http://backend:8043';
 
 // Security middleware
 app.use(helmet({
